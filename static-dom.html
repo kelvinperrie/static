@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>sssssshhhhhhhtt</title>
+
+    <style type="text/css">
+        body {
+            font-family: arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .static-container {
+            width: 400px;
+            height: 400px;
+            border: 1px solid black;
+            float: left;
+        }
+        .pix {
+            float: left;
+        }
+        .sc1 .pix {
+            width: 10px;
+            height: 10px;
+            background-color: blue;
+        }
+        .sc2 .pix {
+            width: 5px;
+            height: 5px;
+            background-color: blue;
+        }
+    </style>
+
+    <link rel="stylesheet" href="styles/static.css">
+
+    <script src="scripts/jquery-3.3.1.min.js"></script>
+    
+    <script type="text/javascript">
+        function randomIntFromInterval(min,max)
+        {
+            return Math.floor(Math.random()*(max-min+1)+min);
+        }
+
+        function makePixels(parent, pixCount, pixClass) {
+            var mePixels = "";
+            for(var i = 0; i< pixCount;i++) {
+                mePixels += "<div class='pix "+pixClass+"'></div>";
+                //$(parent).append("<div class='pix "+pixClass+"'></div>")
+            }
+            $(parent).append(mePixels);
+        }
+
+        function doColourChanges(parent, loopSpeed) {
+            $(parent).find(".pix").each(function() {
+                var bgColour = randomIntFromInterval(0,1) == 0 ? '#fff' : '#000';
+                $(this).css('background-color', bgColour);
+            });
+            setTimeout(function(){ doColourChanges(parent, loopSpeed); }, loopSpeed);
+        }
+
+        $(document).ready(function () {
+            
+            // this seems doooooomed from the start, that's a lot of divs
+            // 'pixels' 10 px wide
+            makePixels('.sc1', 1600, '');
+            doColourChanges('.sc1',50);
+            
+            // 'pixels' 5 px wide
+            makePixels('.sc2', 6400, '');
+            doColourChanges('.sc2',50);
+
+            // 'pixels' 2 px wide = ruh roh
+            //makePixels('.sc3', 40000, '');
+            //doColourChanges('.sc3',50);
+        })
+    </script>
+</head>
+
+<body>
+    <div class="static-container sc1"></div>
+    <div class="static-container sc2"></div>
+    <div class="static-container sc3"></div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>sssssshhhhhhhtt</title>
+
+    <style type="text/css">
+        body {
+            font-family: arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+    </style>
+
+    <link rel="stylesheet" href="styles/static.css">
+
+    <script src="scripts/jquery-3.3.1.min.js"></script>
+    
+    <script type="text/javascript">
+        function randomIntFromInterval(min,max)
+        {
+            return Math.floor(Math.random()*(max-min+1)+min);
+        }
+
+        // on each drawing loop don't clear the canvas, just write rectangles over the top of existing
+        // could put text on top of the rectangles
+        function forceEachPix(ctx, size, loopSpeed) {
+            for(var x = 1; x <= 400; x+=size) {
+                for(var y = 1; y <= 400; y+=size) {
+                    ctx.fillStyle = randomIntFromInterval(0,1) == 0 ? '#000000' : '#ffffff';
+                    ctx.fillRect( x, y, size, size );
+                }
+            }
+            // ctx.save();
+            // ctx.fillStyle = '#000';
+            // ctx.font = '48px serif';
+            // ctx.fillText('Hello world', 10, 200);
+            // ctx.restore();
+            setTimeout(function(){ forceEachPix(ctx, size, loopSpeed); }, loopSpeed);
+        }
+        
+        // on each draw loop clear the canvas, if the rectangle happens to blank, if white then don't draw it
+        // reliant on the bg colour being white
+        // can put text behind the rectangles
+        function lazyPix(ctx, size, loopSpeed) {
+            ctx.clearRect(0, 0, 400, 400);
+            ctx.save();
+            ctx.fillStyle = '#000';
+            ctx.font = '48px serif';
+            ctx.fillText('Howdy folks', 10, 200);
+            ctx.restore();
+            for(var x = 1; x <= 400; x+=size) {
+                for(var y = 1; y <= 400; y+=size) {
+                    var colour = randomIntFromInterval(0,1);
+                    if(colour == 1) {
+                        ctx.fillStyle = '#000';
+                        ctx.fillRect( x, y, size, size );
+                    }
+                }
+            }
+            setTimeout(function(){ lazyPix(ctx, size, loopSpeed); }, loopSpeed);
+        }
+
+        $(document).ready(function () {
+            
+            forceEachPix(document.getElementById('canvas1').getContext('2d'), 2, 50);
+            forceEachPix(document.getElementById('canvas2').getContext('2d'), 5, 50);
+            forceEachPix(document.getElementById('canvas3').getContext('2d'), 10, 50); // use phone to scan this one!
+            lazyPix(document.getElementById('canvas4').getContext('2d'), 2, 50);
+            lazyPix(document.getElementById('canvas5').getContext('2d'), 1, 100);
+        })
+    </script>
+</head>
+
+<body>
+        Drawing each pixel of static<br/>
+        <canvas id="canvas1" width="400" height="400"></canvas>
+        <canvas id="canvas2" width="400" height="400"></canvas>
+        <canvas id="canvas3" width="400" height="400"></canvas>
+        <br/>
+        Drawing just black pix<br/>
+        <canvas id="canvas4" width="400" height="400"></canvas>
+        <canvas id="canvas5" width="400" height="400"></canvas>
+
+</body>
+</html>
